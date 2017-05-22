@@ -2,4 +2,11 @@
     <string name="app_name">Peregrination</string>
     <string name="title_activity_main">Peregrination</string>
     <string name="title_activity_maps">Map</string>
+    <string name="drawer_open">open drawer</string>
+    <string name="drawer_close">close drawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
