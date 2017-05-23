@@ -1,7 +1,9 @@
 package com.alchemistprojects.kevin.peregrination;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -24,6 +28,7 @@ import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.InputStream;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +38,9 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private TextView mNameTextView;
+    private TextView mEmailTextView;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,26 +53,10 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth auth) {
                 FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
-                    // already signed in
-                    // Name, email address, and profile photo Url
-                    String name = user.getDisplayName();
-                    String email = user.getEmail();
-                    Uri photoUrl = user.getPhotoUrl();
-
-                    // Check if user's email is verified
-                    boolean emailVerified = user.isEmailVerified();
-
-                    // The user's ID, unique to the Firebase project. Do NOT use this value to
-                    // authenticate with your backend server, if you have one. Use
-                    // FirebaseUser.getToken() instead.
-                    String uid = user.getUid();
-                    Log.d(TAG, name);
-                    Log.d(TAG, email);
-                    Log.d(TAG, photoUrl.toString());
-                    Log.d(TAG, String.valueOf(emailVerified));
-                    Log.d(TAG, uid);
+                    onSignedInInitializeUser(user);
                 } else {
                     // not signed in
+                    onSignedOutCleanUp();
                     startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
@@ -80,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         };
 
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -100,6 +93,27 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        mNameTextView = (TextView) view.findViewById(R.id.displayName);
+        mEmailTextView = (TextView) view.findViewById(R.id.email);
+        mImageView = (ImageView) view.findViewById(R.id.imageView);
+    }
+
+    private void onSignedInInitializeUser(FirebaseUser user) {
+        if (user != null) {
+            mNameTextView.setText(user.getDisplayName());
+            mEmailTextView.setText(user.getEmail());
+            DownloadImageTask task = new DownloadImageTask(mImageView);
+            task.execute(user.getPhotoUrl().toString());
+        } else {
+            onSignedOutCleanUp();
+        }
+    }
+
+    private void onSignedOutCleanUp() {
+        mNameTextView.setText(R.string.user_no_user);
+        mEmailTextView.setText(R.string.user_no_email);
+        mImageView.setImageResource(android.R.drawable.sym_def_app_icon);
     }
 
     @Override
@@ -143,6 +157,7 @@ public class MainActivity extends AppCompatActivity
 
                 if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
                     showSnackbar(R.string.unknown_error);
+                    finish();
                     return;
                 }
             }
@@ -182,6 +197,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_sign_out) {
+            mAuth.signOut();
         }
 
         return super.onOptionsItemSelected(item);
@@ -210,5 +227,31 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        private ImageView mImageView;
+
+        public DownloadImageTask(ImageView bmImage) {
+            mImageView = bmImage;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            mImageView.setImageBitmap(result);
+        }
     }
 }
