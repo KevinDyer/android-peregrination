@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "745139943732",
+    "firebase_url": "https://peregrination-166920.firebaseio.com",
+    "project_id": "peregrination-166920",
+    "storage_bucket": "peregrination-166920.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745139943732:android:d3c2869651f1eaed",
+        "android_client_info": {
+          "package_name": "com.alchemistprojects.kevin.peregrination"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745139943732-vt69ik6c37dk4dt5tguvvm0ruumpif94.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alchemistprojects.kevin.peregrination",
+            "certificate_hash": "3266d2038b7726bdba36efc8581cdadafaa78310"
+          }
+        },
+        {
+          "client_id": "745139943732-8g30gsedk1qei9mdcifqufpuc3gbhene.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD63RrvEe_OmJs6-CvfBiSaXLiWRBoAD2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745139943732-8g30gsedk1qei9mdcifqufpuc3gbhene.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745139943732:android:82d24deab3bd273b",
+        "android_client_info": {
+          "package_name": "com.alchemistprojects.kevin.firebaseauth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745139943732-s0o3crrsgl71364uh44o9t0qmurf8jc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alchemistprojects.kevin.firebaseauth",
+            "certificate_hash": "3266d2038b7726bdba36efc8581cdadafaa78310"
+          }
+        },
+        {
+          "client_id": "745139943732-8g30gsedk1qei9mdcifqufpuc3gbhene.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD63RrvEe_OmJs6-CvfBiSaXLiWRBoAD2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745139943732-8g30gsedk1qei9mdcifqufpuc3gbhene.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
